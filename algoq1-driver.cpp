@@ -101,10 +101,32 @@ int main(int argc, char* argv[]) {
                 }
                 else {
                     //currently engaged
-                    // if the hospital prefers this student
-                   
+                    //check if the hospital prefers this student
+                    //Find position of all currently engaged students
+    
+                    int myIndex = -1;
+                    if (student != sVector.end()) {
+                        //find same id 
+                        myIndex = student - sVector.begin();
+                    }
+                    for (const Student& compareStudent : sVector) {
+                        if (compareStudent.assignedTo == hospital->id) {
+                            //find position and compare
+                            auto it = find_if(sVector.begin(), sVector.end(), [compareStudent](const Student& s) {
+                                return s.id == compareStudent.id;
+                                });
+                            if (it != sVector.end())
+                            {
+                                // calculating the index 
+                                // of K 
+                                int index = it - sVector.begin();
+                                if (myIndex < index) {
+                                    break;
+                                }
 
-
+                            }
+                        }
+                    }
                 }
             }
 
