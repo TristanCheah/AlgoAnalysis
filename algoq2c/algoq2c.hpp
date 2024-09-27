@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm> 
 #include <random>
+#include <chrono>
 
 int get_max_three_ints(int a, int b, int c) {
     if (a > b) {
@@ -41,4 +42,12 @@ int findMaxInThreeParts(std::vector<int> const& arr, int start, int end) {
 
     // Get the max value of the three parts
     return get_max_three_ints(max1, max2, max3);
+}
+
+void printChrono(std::chrono::steady_clock::time_point start, std::chrono::steady_clock::time_point stop, std::string algoType) {
+    // Calculate the duration (microseconds)
+    auto duration{ std::chrono::duration_cast<std::chrono::microseconds>(stop - start) };
+
+    // Display the runtime
+    std::cout << "Execution time for " << algoType << ": " << duration.count() << " microseconds" << std::endl;
 }
