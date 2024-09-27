@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
     C.prefList.push_back(4);
     C.prefList.push_back(3);
 
-   
+    std::reverse(C.prefList.begin(), C.prefList.end());
 
     C.remainingSlots = 2;
 
@@ -51,6 +51,8 @@ int main(int argc, char* argv[]) {
     M.prefList.push_back(1);
     M.prefList.push_back(2);
     M.prefList.push_back(4);
+
+    std::reverse(M.prefList.begin(), M.prefList.end());
 
     M.remainingSlots = 2;
 
@@ -82,7 +84,11 @@ int main(int argc, char* argv[]) {
     //HOSPITALS ARE MEN
     while (true) {
         if (currentStudent->engaged == false && currentStudent->notProposedTo.size() > 0) {
+            bool replacedSomeone = false;
             for (int i = 0; i < currentStudent->notProposedTo.size(); i++) {
+                if (replacedSomeone == true) {
+                    break;
+                }
                 char id = currentStudent->notProposedTo[i];
                 std::vector<Hospital>::iterator hospital = std::find_if(hVector.begin(), hVector.end(), [id](Hospital h) {
                     return h.id == id;
@@ -105,33 +111,45 @@ int main(int argc, char* argv[]) {
                     //Find position of all currently engaged students
     
                     int myIndex = -1;
-                    if (student != sVector.end()) {
+                    auto it3 = find_if(hospital->prefList.begin(), hospital->prefList.end(), [currentStudent](char hospPrefChar) {
+                        return hospPrefChar == currentStudent->id;
+                        });
+                    if (it3 != hospital->prefList.end()) {
                         //find same id 
-                        myIndex = student - sVector.begin();
+                        myIndex = it3 - hospital->prefList.begin();
                     }
-                    for (const Student& compareStudent : sVector) {
+                    for (Student& compareStudent : sVector) {
                         if (compareStudent.assignedTo == hospital->id) {
                             //find position and compare
-                            auto it = find_if(sVector.begin(), sVector.end(), [compareStudent](const Student& s) {
-                                return s.id == compareStudent.id;
+                            auto it = find_if(hospital->prefList.begin(), hospital->prefList.end(),
+                                [compareStudent](char s) {
+                                return s == compareStudent.id;
                                 });
-                            if (it != sVector.end())
+                            if (it != hospital->prefList.end())
                             {
                                 // calculating the index 
                                 // of K 
-                                int index = it - sVector.begin();
-                                if (myIndex < index) {
+                                int index = it - hospital->prefList.begin();
+                                if (myIndex > index) {
+                                    //higher priority
+                                    compareStudent.engaged = false;
+                                    compareStudent.assignedTo = ' ';
+                                    student->engaged = true;
+                                    student->assignedTo = hospital->id;
+                                    currentStudent->notProposedTo.erase(currentStudent->notProposedTo.begin() + i);
+                                    replacedSomeone = true;
                                     break;
                                 }
-
                             }
                         }
+                        
+                    }
+                    if (replacedSomeone == false) {
+                        currentStudent->notProposedTo.erase(currentStudent->notProposedTo.begin() + i);
                     }
                 }
             }
-
         }
-
         std::vector<Student>::iterator freeStudent = std::find_if(sVector.begin(), sVector.end(), [](Student s) {
             return s.engaged == false && s.notProposedTo.size() > 0;
             });
@@ -142,5 +160,9 @@ int main(int argc, char* argv[]) {
             break;
         }
     }
+    for (Student s : sVector) {
+        std::cout << "{ " << s.id << ", " << s.assignedTo << " }\n";
+    }
+
     return 0;
 }
