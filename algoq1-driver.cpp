@@ -9,7 +9,7 @@
 struct Hospital {
     int remainingSlots = 2;
     char id;
-    std::vector<char> prefList;
+    std::vector<int> prefList;
     
 };
 struct Student {
@@ -70,74 +70,18 @@ void question1a(int argc, char* argv[]) {
         while (currentHospitalData.find_first_of("123456789", currentPosition) != std::string::npos)
         {
             currentPosition = currentHospitalData.find_first_of("123456789", currentPosition);
-            currentHospital.prefList.push_back((currentHospitalData[currentPosition]));
+            char character = currentHospitalData[currentPosition];
+            int converted = character - '0';
+           
+            currentHospital.prefList.push_back(converted);
             currentPosition++;
         }
+        std::reverse(currentHospital.prefList.begin(), currentHospital.prefList.end());
+
         // Add the populated hospital object to the vector
         hVector.push_back(currentHospital);
-        
     }
     
-    // for (const auto& hospital : hVector) {
-    //     std::cout << "Hospital ID: " << hospital.id << "\n";
-    //     std::cout << "Remaining Slots: " << hospital.remainingSlots << "\n";
-    //     std::cout << "Preference List: ";
-    //     for (char pref : hospital.prefList) {
-    //         std::cout << pref << " ";
-    //     }
-    //     std::cout << "\n";
-    // }
-
-
-
-    // //THIS WILL BE DONE BY TEXT INPUT
-    // Hospital C;
-    // C.id = 'C';
-    // C.prefList.push_back(5);
-    // C.prefList.push_back(1);
-    // C.prefList.push_back(2);
-    // C.prefList.push_back(4);
-    // C.prefList.push_back(3);
-
-   
-
-    // C.remainingSlots = 2;
-
-    // Hospital M;
-    // M.id = 'M';
-    // M.prefList.push_back(5);
-    // M.prefList.push_back(3);
-    // M.prefList.push_back(1);
-    // M.prefList.push_back(2);
-    // M.prefList.push_back(4);
-
-    // M.remainingSlots = 2;
-
-    
-
-    // hVector.push_back(M);
-    // hVector.push_back(C);
-
-    // std::vector<Student> sVector;
-    // for (int i = 1; i < 6; i++) {
-    //     Student s;
-    //     s.id = i;
-    //     s.engaged = false;
-    //     if (i < 4) {
-    //         s.prefList.push_back('C');
-    //         s.prefList.push_back('M');
-    //     }
-    //     else {
-    //         s.prefList.push_back('M');
-    //         s.prefList.push_back('C');
-    //     }
-    //     s.notProposedTo = s.prefList;
-    //     sVector.push_back(s);
-    // }
-
-    // //THIS WILL BE DONE BY TEXT INPUT
-    // std::vector<Student>::iterator currentStudent = sVector.begin();
-
     std::vector<Student> sVector;
     std::string fullStudentData;
     std::getline(ifs, fullStudentData);
@@ -178,21 +122,13 @@ void question1a(int argc, char* argv[]) {
             currentStudent.notProposedTo = currentStudent.prefList;
             currentPosition++;
         }
+      
+       
         // Add the populated hospital object to the vector
         sVector.push_back(currentStudent);
         
     }
 
-    // for (const auto& student : sVector) {
-    //     std::cout << "Student: " << student.id << "\n";
-    //     std::cout << "Preference List: ";
-    //     for (char pref : student.prefList) {
-    //         std::cout << pref << " ";
-    //     }
-    //     std::cout << "\n";
-    // }
-
-//=====================================================
     //THIS WILL BE DONE BY TEXT INPUT
     std::vector<Student>::iterator currentStudent = sVector.begin();
 
@@ -200,7 +136,7 @@ void question1a(int argc, char* argv[]) {
     while (true) {
         if (currentStudent->engaged == false && currentStudent->notProposedTo.size() > 0) {
             bool replacedSomeone = false;
-            for (long unsigned int i = 0; i < currentStudent->notProposedTo.size(); i++) {
+            for (size_t i = 0; i < currentStudent->notProposedTo.size(); i++) {
                 if (replacedSomeone == true) {
                     break;
                 }
@@ -471,6 +407,6 @@ void question1b() {
 }
 int main(int argc, char* argv[]) {
     question1a(argc, argv);
-    //question1b();
+    question1b();
     return 0;
 }
