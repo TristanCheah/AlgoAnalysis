@@ -56,9 +56,9 @@ int findMaxQuadratic(const std::vector<int>& part1, const std::vector<int>& part
     int maxElement = part1[0];
     
     // Compare every element of part1 with part2 and part3
-    for (int i{}; i < part1.size(); ++i) {
-        for (int j{}; j < part2.size(); ++j) {
-            for (int k{}; k < part3.size(); ++k) {
+    for (int i{}; i < static_cast<int>(part1.size()); ++i) {
+        for (int j{}; j < static_cast<int>(part2.size()); ++j) {
+            for (int k{}; k < static_cast<int>(part3.size()); ++k) {
                 maxElement = std::max({maxElement, part1[i], part2[j], part3[k]});
             }
         }

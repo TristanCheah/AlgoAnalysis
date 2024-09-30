@@ -35,7 +35,7 @@ int binarySearch(std::vector<int>& arr, int target) {
 int linearTimeSum(std::vector<int> const& arr) {
     int sum{};
 
-    for (int i{}; i < arr.size(); ++i)
+    for (int i{}; i < static_cast<int>(arr.size()); ++i)
     {
         sum += arr[i];
     }
@@ -102,7 +102,7 @@ int fib(int n) {
 }
 
 //-------------------------Factorial-------------------------
-void printPermutations(std::vector<int> arr, int n) {
+void printPermutations(std::vector<int> arr) {
     int count{};
     std::sort(arr.begin(), arr.end());
     do {
@@ -142,7 +142,7 @@ int main() {
     //-------------------------Logarithmic-------------------------
     std::vector<int> int_arr_binary = int_arr;
     std::sort(int_arr_binary.begin(), int_arr_binary.end());
-    for (int i{}; i < int_arr_binary.size(); ++i) {
+    for (int i{}; i < static_cast<int>(int_arr_binary.size()); ++i) {
         std::cout << int_arr_binary[i] << " ";
     }
     std::cout << std::endl;
@@ -181,7 +181,7 @@ int main() {
     
     mergeSort(int_arr_mergesort, 0, int_arr_mergesort.size() - 1);
     std::cout << "Sorted array: ";
-    for (int i{}; i < int_arr_mergesort.size(); i++) {
+    for (int i{}; i < static_cast<int>(int_arr_mergesort.size()); i++) {
         std::cout << int_arr_mergesort[i] << " ";
     }
     std::cout << std::endl;
@@ -202,7 +202,7 @@ int main() {
     bubbleSort(int_arr_bubblesort, int_arr_bubblesort.size());
 
     std::cout << "Sorted array: ";
-    for (int i{}; i < int_arr_bubblesort.size(); i++) {
+    for (int i{}; i < static_cast<int>(int_arr_bubblesort.size()); i++) {
         std::cout << int_arr_bubblesort[i] << " ";
     }
     std::cout << std::endl;
@@ -232,7 +232,7 @@ int main() {
     // Record start time
     start = std::chrono::steady_clock::now();
 
-    printPermutations(int_arr, int_arr.size());
+    printPermutations(int_arr);
 
     // Record end time
     stop = std::chrono::steady_clock::now();
