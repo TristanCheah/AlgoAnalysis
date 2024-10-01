@@ -4,9 +4,9 @@
 #include <vector>
 
 //-------------------------Constant-------------------------
-void getFourthElement(std::vector<int> const& arr) {
-    if (arr.size() > 3) {
-        std::cout << "Accessing fourth element: " << arr[3] << std::endl;
+void getSpecifiedElement(std::vector<int> const& arr, int const& index) {
+    if (static_cast<int>(arr.size()) > index) {
+        std::cout << "Accessing element at index " << index << ": " << arr[index] << std::endl;
     }
 }
 
@@ -125,19 +125,54 @@ int main() {
     // Initialize vector of ints
     std::vector<int> int_arr{25, 5, 2, 132, 56, 238, 22, 51567, 23, 98, 2};
 
-    //-------------------------Constant-------------------------
-    // Record start time
+    // Large vector of ints
+    std::vector<int> large_int_arr {
+        35, 69, 20, 83, 12, 72, 66, 53, 66, 42, 
+        27, 97, 18, 91, 24, 42, 11, 66, 59, 79, 
+        82, 54, 25, 21, 97, 93, 42, 53, 5, 52, 
+        42, 19, 66, 25, 33, 57, 45, 22, 33, 82, 
+        92, 68, 52, 73, 82, 53, 73, 7, 81, 63, 
+        35, 64, 84, 18, 73, 20, 52, 19, 21, 87, 
+        70, 93, 42, 17, 83, 35, 98, 85, 80, 83, 
+        51, 41, 54, 47, 30, 1, 97, 86, 42, 3, 
+        32, 48, 71, 50, 38, 10, 84, 51, 36, 9, 
+        17, 49, 85, 27, 49, 85, 99, 77, 63, 86
+    };
+
+    // Fix chrono
     std::chrono::steady_clock::time_point start{ std::chrono::steady_clock::now() };
+    std::cout << "Initializing (to fix <chrono>)..." << std::endl;
+    std::chrono::steady_clock::time_point stop{ std::chrono::steady_clock::now() };
+    printChrono(start, stop, "Printing");
+    std::cout << std::endl;
+
+    //-------------------------Constant (large vector)-------------------------
+    // Record start time
+    start = std::chrono::steady_clock::now();
 
     // Get fourth element of int_arr
-    getFourthElement(int_arr);
+    getSpecifiedElement(large_int_arr, 79);
 
     // Record end time
-    std::chrono::steady_clock::time_point stop{ std::chrono::steady_clock::now() };
+    stop = std::chrono::steady_clock::now();
 
     // Display runtime
-    printChrono(start, stop, "Constant");
+    printChrono(start, stop, "Constant (size = 100)");
     std::cout << std::endl;
+
+    //-------------------------Constant (small vector)-------------------------
+    // Record start time
+    start = std::chrono::steady_clock::now();
+
+    // Get fourth element of int_arr
+    getSpecifiedElement(int_arr, 4);
+
+    // Record end time
+    stop = std::chrono::steady_clock::now();
+
+    // Display runtime
+    printChrono(start, stop, "Constant (size = 11)");
+    std::cout << std::endl;    
 
     //-------------------------Logarithmic-------------------------
     std::vector<int> int_arr_binary = int_arr;
